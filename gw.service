@@ -1,0 +1,14 @@
+# Service for GoodWE and MQTT
+
+[Unit]
+Description=GoodWe proxy between Inverter and Mosquitto
+After=network-online.target
+After=mosquitto.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+Restart=on-failure
+#RestartSec=5
+User=pi
+ExecStart=/home/pi/.local/bin/gw --run
