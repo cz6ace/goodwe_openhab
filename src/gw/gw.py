@@ -1,7 +1,9 @@
-import asyncio
-import goodwe
 import argparse
+import asyncio
+import sys
+import goodwe
 import paho.mqtt.client as mqtt
+VERSION="0.0.2"
 
 def kind_to_str(kind):
     if kind is None:
@@ -35,7 +37,7 @@ async def run_mqtt(ip_address, mqtt_host, topic, delay, tries=100):
             print("Error reading from GoodWe", e)
             cntr -= 1
             if not cntr:
-                break
+                return 1
             await asyncio.sleep(delay / 3)
             continue
         cntr = tries
@@ -119,11 +121,13 @@ def main():
     parser.add_argument("-r", "--run", action="store_true", dest="run")
     parser.add_argument("--mqtt", action="store", dest="mqtt", default="localhost")
     parser.add_argument("--delay", action="store", dest="delay", default=15, type=int)
+    parser.add_argument("--version", action="version", version=VERSION)
 
     args = parser.parse_args()
 
     if args.run:
-        asyncio.run(run_mqtt(args.host, args.mqtt, args.topic, args.delay))
+        code = asyncio.run(run_mqtt(args.host, args.mqtt, args.topic, args.delay))
+        sys.exit(code)
     elif args.items:
         asyncio.run(get_items(args.host, args.topic, args.groups, args.camel_case, args.prefix))
     elif args.thing:

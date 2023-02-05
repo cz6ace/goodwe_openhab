@@ -1,1 +1,1 @@
-from .gw import main
+from .gw import main, VERSION
