@@ -3,7 +3,7 @@ import asyncio
 import sys
 import goodwe
 import paho.mqtt.client as mqtt
-VERSION="0.0.2"
+VERSION="0.0.3"
 
 def kind_to_str(kind):
     if kind is None:
@@ -27,10 +27,16 @@ async def run_mqtt(ip_address, mqtt_host, topic, delay, tries=100):
     # wait for mqtt
     await asyncio.sleep(3)
     cntr = tries
+    # give just two chances to connect to goodwe and then just in a loop
+    # read the runtime data to reduce the traffic
+    try:
+        inverter = await goodwe.connect(ip_address)
+    except Exception as e:
+        await asyncio.sleep(3)
+        inverter = await goodwe.connect(ip_address)
 
     while True:
         try:
-            inverter = await goodwe.connect(ip_address)
             runtime_data = await inverter.read_runtime_data()
             print("data successfully read")
         except Exception as e:
