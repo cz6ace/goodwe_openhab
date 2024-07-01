@@ -1,0 +1,27 @@
+[project]
+name = "gw"
+dynamic = ["version"]
+
+authors = [
+    {name = "Libor Ukropec", email = "ace@seznam.cz"},
+]
+
+description = "Controlling ABL EMH1 wall box"
+readme = "README.md"
+license = {text = "MIT"}
+
+dependencies = [
+  "goodwe",
+  "paho-mqtt"
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "gw.version.VERSION"}
+
+[tool.setuptools.packages.find]
+where = ["src"]  # list of folders that contain the packages (["."] by default)
+include = []  # package names should match these glob patterns (["*"] by default)
+exclude = []  # exclude package
+
+[project.scripts]
+gw = "gw:main"

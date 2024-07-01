@@ -3,4 +3,14 @@ GoodWe OpenHAB integration using MQTT
 
 
 # Possible installation/usage:
-pipx install --spec . gw
+```
+python3 -m venv venv
+. venv/bin/activate
+pip install -e .
+gw --help
+```
+
+```
+pipx install -e . --force
+gw --help
+```

@@ -1,9 +1,10 @@
 import argparse
 import asyncio
-import sys
 import goodwe
 import paho.mqtt.client as mqtt
-VERSION="0.0.3"
+import sys
+
+from . import VERSION
 
 def kind_to_str(kind):
     if kind is None:
